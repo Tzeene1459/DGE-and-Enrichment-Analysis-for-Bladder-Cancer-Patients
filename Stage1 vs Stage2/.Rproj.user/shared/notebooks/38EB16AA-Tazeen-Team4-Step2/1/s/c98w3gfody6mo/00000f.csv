@@ -1,0 +1,19 @@
+"0","#checking if EnrichR website and packing are working"
+"0","#dbs <- enrichR::listEnrichrDbs()  #total number of databases available = 200+ "
+"0",""
+"0","#testing if EnrichR package is working"
+"0","testOutput <- enrichR::enrichr(genes = c(""Runx1"", ""Gfi1"", ""Gfi1b"", ""Spi1"", ""Gata1"", ""Kdr""), databases = ""KEGG_2021_Human"")"
+"1","Uploading data to Enrichr... "
+"1","Done.
+"
+"1","  Querying "
+"1",""
+"1","KEGG_2021_Human"
+"1",""
+"1","... "
+"1","Done.
+"
+"1","Parsing results... "
+"1","Done.
+"
+"0","head(testOutput[[1]])"

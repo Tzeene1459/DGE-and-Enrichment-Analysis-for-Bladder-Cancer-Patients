@@ -1,0 +1,6 @@
+"0",""
+"0","#### Use the clinBase and clinComp objects to subset gene expression data"
+"0","geneExpBase <- subsetGeneExp[, clinBase$GSMid] # 43148 feature (rows), 58 samples columns"
+"0","geneExpComp <- subsetGeneExp[, clinComp$GSMid] # 43148 feature (rows), 103 samples columns"
+"0",""
+"0","head(geneExpBase)"

@@ -1,0 +1,4 @@
+"0","clinData <- read.csv(file = ""input/BC_ClinData_233rows.csv"", header = T, stringsAsFactors = F, row.names = 1)"
+"0",""
+"0",""
+"0","head(clinData)"

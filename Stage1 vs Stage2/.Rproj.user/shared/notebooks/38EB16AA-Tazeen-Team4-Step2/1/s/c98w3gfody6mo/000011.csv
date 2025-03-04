@@ -1,0 +1,6 @@
+"0",""
+"0","#List of databases for which enrichment analysis will be run"
+"0","dblist1 <- read.csv(file = ""input/2023-EnrichR-Databases.txt"", "
+"0","                    header = F, stringsAsFactors = F)"
+"0",""
+"0","head(dblist1)"

@@ -1,0 +1,1 @@
+"0","knitr::kable(head(geneExpComp[1:5,1:4]))"

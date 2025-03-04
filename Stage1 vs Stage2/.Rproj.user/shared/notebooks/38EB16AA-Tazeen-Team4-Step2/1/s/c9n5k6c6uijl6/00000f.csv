@@ -1,0 +1,6 @@
+"0","#folder that contains group comparison results"
+"0","fileName <- ""input/Tazeen_Stage2_Stage1_Ttest_Shortlisted.csv"""
+"0",""
+"0","# read in group comparison results"
+"0","result1 <- read.csv(file = fileName, "
+"0","                        header = T, stringsAsFactors = F, row.names = 1)"

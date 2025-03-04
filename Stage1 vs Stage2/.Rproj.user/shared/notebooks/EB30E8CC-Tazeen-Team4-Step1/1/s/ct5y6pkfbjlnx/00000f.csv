@@ -1,0 +1,2 @@
+"0","### Checking to make sure data is a numeric data frame"
+"0","knitr::kable(head(geneExpBase[1:5,1:4]))"

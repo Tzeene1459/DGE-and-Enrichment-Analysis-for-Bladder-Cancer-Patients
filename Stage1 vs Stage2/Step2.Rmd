@@ -1,0 +1,160 @@
+---
+title: "Enrichment Analysis for Bladder Cancer: Stage2 vs Stage1"
+author: "Tazeen Shaukat"
+output:
+  pdf_document: default
+  html_document: default
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#install.packages("enrichR")
+#install.packages("openxlsx")# independant of java
+#install.packages("devtools") 
+#devtools::install_github("wjawaid/enrichR")
+library(enrichR)
+library(openxlsx)
+
+# NOTE - if you have an error "EnrichR website not responding"  and unable to connect to EnrichR database online, try this
+# OPTION 1
+#devtools::install_github("wjawaid/enrichR")
+#library(enrichR)
+
+# OPTION 2 - update curl and wget
+# (Step a) Open the "terminal" application for these commands. Follow instructions for mac
+# https://help.ubidots.com/en/articles/2165289-learn-how-to-install-run-curl-on-windows-macosx-linux
+# 
+# (Step b) Install/update wget to the latest version
+# Use the same "terminal" application. Enter
+# brew install wget
+# 
+# (step C) Restart your computer. 
+# Try out these EnrichR commands to see if you are able to access the enrichR databases online without error message
+# install.packages("enrichR")
+# library(enrichR)
+# enrichR::listEnrichrDbs()
+
+```
+
+## R Markdown - Enrichment anlalysis using EnrichR R package
+
+Summary
+
+-   I have already shortlisted the genes in my ...\_Step1.rmd file based
+    on p-value cut off of 0.05
+
+-   I also have created a clean list of gene names in the same file
+    above
+
+-   However, I will be redoing the filtering and gene name clean up to
+    ensure I get the same results, and also to make sure the gene names
+    are given to the EnrichR function in the correct/expected format
+
+-   After discussing with my group, I will also be adding another layer
+    of filtering the results on fdr cut off of 0.01 and limit the result
+    set to a list of no more than a 1000 genes
+
+-   Then I will connect to the EnrichR database and run Enrichment
+
+## Import T-test results so that we can short list further
+
+```{r}
+#folder that contains group comparison results
+fileName <- "input/Tazeen_Stage2_Stage1_Ttest_Shortlisted.csv"
+
+# read in group comparison results
+results <- read.table(file = fileName, 
+                      header = TRUE, 
+                      stringsAsFactors = FALSE, 
+                      row.names = 1, 
+                      sep = ",")
+```
+
+## Filtering/shortlisting Short list results based in p-value cut off (pvalue \<= 0.01) This is already done but redoing just to be sure
+
+```{r}
+pValueCutOff <- 0.05
+fdrCutOff <- 0.01
+which <- (as.numeric(results$Pvalue) <= pValueCutOff) & (as.numeric(results$FDR) <= fdrCutOff)
+table(which) #10893 genes with p <= 0.05 and fdr <= 0.01
+
+
+resultShort <- results[which, ] #short listed genes 
+resultShort <- head(resultShort[order(as.numeric(resultShort$FDR)), ], 1000) #keeping only the top 1000 based on fdr
+
+```
+
+## Clean gene names
+
+Note - the gene names are in the form of "reporterid_genename". So need
+to split this.
+
+```{r}
+funcSplit <- function(rep_gene) {
+    rep_gene_split <- unlist(strsplit(x = rep_gene, 
+                                      split = "|", 
+                                      fixed = TRUE))
+    gene <- rep_gene_split[2]
+    return(gene)
+}
+geneListSplit <- apply(X = as.matrix((resultShort$Feature)), 
+                       MARGIN = 1, FUN = funcSplit )
+head(geneListSplit) #cleaned gene names
+
+#remove duplicates
+geneListSplit_unique <- unique(geneListSplit)
+
+# remove NA value
+geneList_final <- na.omit(geneListSplit_unique) 
+
+head(geneList_final)
+```
+
+```{r}
+#print number of unique genes
+# left with 950 after cleanup
+length(geneList_final)
+```
+
+## Load Databases for Enrichr R package , and check connection
+
+```{r}
+#checking if EnrichR website and packing are working
+#dbs <- enrichR::listEnrichrDbs()  #total number of databases available = 200+ 
+
+#testing if EnrichR package is working
+testOutput <- enrichR::enrichr(genes = c("Runx1", "Gfi1", "Gfi1b", "Spi1", "Gata1", "Kdr"), databases = "KEGG_2021_Human")
+head(testOutput[[1]])
+
+#List of databases for which enrichment analysis will be run
+dblist1 <- read.csv(file = "input/2023-EnrichR-Databases.txt", 
+                    header = F, stringsAsFactors = F)
+
+head(dblist1)
+```
+
+```{r}
+geneList_final_df <- data.frame(Gene = geneList_final)
+head(geneList_final_df)
+
+```
+
+## Call function to run Enrichment
+
+```{r, message=FALSE, warning=FALSE}
+# set output file name
+outputFileName <- paste("output/Stage2vsStage1.", "_EnrichR.xlsx", sep="")
+
+#Load R script into the environment
+source(file = "functionEnrichment.R") 
+
+#call function to run Enrichment
+functionEnrichment(dblist1, geneList_final_df, outputFileName)
+
+#NEED INTERNET CONNECTION
+```
+
+Note - you will need internet connection to complete the above step.

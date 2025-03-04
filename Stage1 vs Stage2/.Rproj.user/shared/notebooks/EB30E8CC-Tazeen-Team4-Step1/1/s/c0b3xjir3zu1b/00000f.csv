@@ -1,0 +1,4 @@
+"0",""
+"0","# Read in gene expression file - features (rows), 30 patients (columns)"
+"0","geneExp <- read.csv(file = ""input/BC_GeneExpData_withAnno_233.tsv"", sep = ""\t"", header = T, stringsAsFactors = F, row.names = 1)"
+"0","head(geneExp[1:5, 1:4])"

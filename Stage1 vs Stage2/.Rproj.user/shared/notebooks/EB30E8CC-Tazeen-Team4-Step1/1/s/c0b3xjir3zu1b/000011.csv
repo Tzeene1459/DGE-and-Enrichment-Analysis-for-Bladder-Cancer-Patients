@@ -1,0 +1,1 @@
+"0","knitr::kable(head(geneExp), caption = ""Processed gene expression data in log2 scale with gene annotation"")"

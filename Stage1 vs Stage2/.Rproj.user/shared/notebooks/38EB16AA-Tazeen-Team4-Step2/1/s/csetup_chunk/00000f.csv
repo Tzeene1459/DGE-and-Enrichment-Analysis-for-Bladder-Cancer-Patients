@@ -1,0 +1,48 @@
+"0","knitr::opts_chunk$set(echo = TRUE)"
+"0","#install.packages(""enrichR"")"
+"0","#install.packages(""openxlsx"")# independant of java"
+"0","#install.packages(""devtools"") "
+"0","#devtools::install_github(""wjawaid/enrichR"")"
+"0","library(enrichR)"
+"2","Welcome to enrichR
+Checking connection ... 
+"
+"2","Enrichr ... "
+"2","Connection is Live!
+"
+"2","FlyEnrichr ... "
+"2","Connection is Live!
+"
+"2","WormEnrichr ... "
+"2","Connection is Live!
+"
+"2","YeastEnrichr ... "
+"2","Connection is Live!
+"
+"2","FishEnrichr ... "
+"2","Connection is Live!
+"
+"2","OxEnrichr ... "
+"2","Connection is Live!
+"
+"0","library(openxlsx)"
+"0",""
+"0","# NOTE - if you have an error ""EnrichR website not responding""  and unable to connect to EnrichR database online, try this"
+"0","# OPTION 1"
+"0","#devtools::install_github(""wjawaid/enrichR"")"
+"0","#library(enrichR)"
+"0",""
+"0","# OPTION 2 - update curl and wget"
+"0","# (Step a) Open the ""terminal"" application for these commands. Follow instructions for mac"
+"0","# https://help.ubidots.com/en/articles/2165289-learn-how-to-install-run-curl-on-windows-macosx-linux"
+"0","# "
+"0","# (Step b) Install/update wget to the latest version"
+"0","# Use the same ""terminal"" application. Enter"
+"0","# brew install wget"
+"0","# "
+"0","# (step C) Restart your computer. "
+"0","# Try out these EnrichR commands to see if you are able to access the enrichR databases online without error message"
+"0","# install.packages(""enrichR"")"
+"0","# library(enrichR)"
+"0","# enrichR::listEnrichrDbs()"
+"0",""
